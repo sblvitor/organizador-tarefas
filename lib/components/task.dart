@@ -9,9 +9,9 @@ class Task extends StatefulWidget {
 
   const Task(
       {Key? key,
-        required this.nome,
-        required this.image,
-        required this.dificuldade})
+      required this.nome,
+      required this.image,
+      required this.dificuldade})
       : super(key: key);
 
   @override
@@ -20,6 +20,13 @@ class Task extends StatefulWidget {
 
 class _TaskState extends State<Task> {
   int nivel = 0;
+
+  bool assetOrNetwork() {
+    if (widget.image.contains('http')) {
+      return false;
+    }
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +57,15 @@ class _TaskState extends State<Task> {
                       height: 100,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(4),
-                        child: Image.asset(
-                          widget.image,
-                          fit: BoxFit.cover,
-                        ),
+                        child: assetOrNetwork()
+                            ? Image.asset(
+                                widget.image,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.network(
+                                widget.image,
+                                fit: BoxFit.cover,
+                              ),
                       ),
                     ),
                     Column(
@@ -69,7 +81,9 @@ class _TaskState extends State<Task> {
                             maxLines: 2,
                           ),
                         ),
-                        Difficulty(difficultyLevel: widget.dificuldade,)
+                        Difficulty(
+                          difficultyLevel: widget.dificuldade,
+                        )
                       ],
                     ),
                     SizedBox(
