@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:organizador_de_tarefas/data/task_inherited.dart';
 
 import 'initial_page.dart';
 
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const InitialPage(),
+      home: TaskInherited(child: const InitialPage()),
     );
   }
 }
