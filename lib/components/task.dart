@@ -7,19 +7,20 @@ class Task extends StatefulWidget {
   final String image;
   final int dificuldade;
 
-  const Task(
+  Task(
       {Key? key,
       required this.nome,
       required this.image,
       required this.dificuldade})
       : super(key: key);
 
+  int nivel = 0;
+
   @override
   State<Task> createState() => _TaskState();
 }
 
 class _TaskState extends State<Task> {
-  int nivel = 0;
 
   bool assetOrNetwork() {
     if (widget.image.contains('http')) {
@@ -92,7 +93,7 @@ class _TaskState extends State<Task> {
                       child: ElevatedButton(
                           onPressed: () {
                             setState(() {
-                              nivel++;
+                              widget.nivel++;
                             });
                           },
                           child: Column(
@@ -120,12 +121,12 @@ class _TaskState extends State<Task> {
                       child: LinearProgressIndicator(
                         color: Colors.white,
                         value: (widget.dificuldade > 0)
-                            ? (nivel / widget.dificuldade) / 10
+                            ? (widget.nivel / widget.dificuldade) / 10
                             : 1,
                       ),
                     ),
                     Text(
-                      'Nivel: $nivel',
+                      'Nivel: ${widget.nivel}',
                       style: const TextStyle(color: Colors.white, fontSize: 16),
                     )
                   ],
