@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:organizador_de_tarefas/data/task_inherited.dart';
+import 'package:organizador_de_tarefas/components/task.dart';
+import 'package:organizador_de_tarefas/data/task_dao.dart';
 
 class FormScreen extends StatefulWidget {
   const FormScreen({Key? key, required this.taskContext}) : super(key: key);
@@ -17,17 +18,16 @@ class _FormScreenState extends State<FormScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
-  bool valueValidator(String? value){
-    if(value != null && value.isEmpty){
+  bool valueValidator(String? value) {
+    if (value != null && value.isEmpty) {
       return true;
     }
     return false;
   }
 
-  bool difficultyValidator(String? value){
-    if(value != null && value.isEmpty){
-      if(int.parse(value) > 5 ||
-          int.parse(value) < 1){
+  bool difficultyValidator(String? value) {
+    if (value != null && value.isEmpty) {
+      if (int.parse(value) > 5 || int.parse(value) < 1) {
         return true;
       }
     }
@@ -127,12 +127,13 @@ class _FormScreenState extends State<FormScreen> {
                           )),
                     ),
                     ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            TaskInherited.of(widget.taskContext).addNewTask(
-                                nameController.text,
-                                int.parse(difficultyController.text),
-                                imageController.text);
+                            await TaskDao().save(Task(
+                              nome: nameController.text,
+                              dificuldade: int.parse(difficultyController.text),
+                              image: imageController.text,
+                            ));
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                     content: Text('Salvando nova Tarefa')));

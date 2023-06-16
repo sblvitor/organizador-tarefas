@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:organizador_de_tarefas/components/task.dart';
 import 'package:organizador_de_tarefas/data/task_dao.dart';
 import 'package:organizador_de_tarefas/screens/form_screen.dart';
-
-import '../data/task_inherited.dart';
 
 class InitialPage extends StatefulWidget {
   const InitialPage({Key? key}) : super(key: key);
@@ -63,7 +62,24 @@ class _InitialPageState extends State<InitialPage> {
                           itemCount: items.length,
                           itemBuilder: (BuildContext context, int index) {
                             final Task task = items[index];
-                            return task;
+                            return Slidable(
+                              endActionPane: ActionPane(
+                                  motion: const ScrollMotion(),
+                                  children: [
+                                    SlidableAction(
+                                      onPressed: (context){
+                                        TaskDao().delete(task.nome);
+                                        setState(() {});
+                                      },
+                                      backgroundColor: Colors.red,
+                                      foregroundColor: Colors.white,
+                                      icon: Icons.delete,
+                                      label: 'Deletar',
+                                    ),
+                                  ],
+                              ),
+                              child: task
+                            );
                           });
                     }
                     return Center(
@@ -94,7 +110,7 @@ class _InitialPageState extends State<InitialPage> {
             MaterialPageRoute(
               builder: (_) => FormScreen(taskContext: context),
             ),
-          );
+          ).then((_) => setState(() {print('Recarregando a tela inicial');}));
         },
         child: const Icon(Icons.add),
       ),
