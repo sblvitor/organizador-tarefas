@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:organizador_de_tarefas/data/task_dao.dart';
 
 import 'difficulty.dart';
 
@@ -6,15 +7,15 @@ class Task extends StatefulWidget {
   final String nome;
   final String image;
   final int dificuldade;
+  int nivel;
 
   Task(
       {Key? key,
       required this.nome,
       required this.image,
-      required this.dificuldade})
+      required this.dificuldade,
+      required this.nivel})
       : super(key: key);
-
-  int nivel = 0;
 
   @override
   State<Task> createState() => _TaskState();
@@ -94,6 +95,7 @@ class _TaskState extends State<Task> {
                           onPressed: () {
                             setState(() {
                               widget.nivel++;
+                              TaskDao().save(widget);
                             });
                           },
                           child: Column(

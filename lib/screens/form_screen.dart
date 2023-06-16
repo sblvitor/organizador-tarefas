@@ -133,6 +133,7 @@ class _FormScreenState extends State<FormScreen> {
                               nome: nameController.text,
                               dificuldade: int.parse(difficultyController.text),
                               image: imageController.text,
+                              nivel: 0,
                             ));
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
